@@ -8,14 +8,14 @@
 class PasswordCracker {
 private:
     static constexpr int PASSWORD_SPACE = 100'000;
-    static constexpr int NUM_THREADS = 8;
+    int numOfThreads; 
     std::string target;
     std::atomic<bool> found;
     std::string result;
     std::vector<std::thread> threads;
 
 public:
-    PasswordCracker(const std::string &password);
+    PasswordCracker(const std::string &password, int numOfThreads);
 
     std::string crackPassword();
 

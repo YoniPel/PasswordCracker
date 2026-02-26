@@ -7,10 +7,30 @@
 
 int main()
 {
+    std::string numOfThreadsString; 
+
+    std::cout << "=== Password Cracker ===" << std::endl; 
+    std::cout << "Enter the number of threads you want to use: "; 
+    
+    std::getline(std::cin, numOfThreadsString);
+
+    int numOfThreads = 1; 
+    try {
+        numOfThreads = std::stoi(numOfThreadsString);
+
+        int maxNumOfThreads = std::thread::hardware_concurrency();
+        if (numOfThreads < 1 || numOfThreads > maxNumOfThreads) {
+            std::cout << "Invalid number, the number should be between 1 to " << maxNumOfThreads << std::endl; 
+            return 1; 
+        }
+    } catch (const std::exception& e) {
+        std::cout << "That's not a valid number" << std::endl; 
+        return 1; 
+    }
+
     std::string secret; 
     
-    std::cout << "=== Password Cracker ===" << std::endl; 
-    std::cout << "Enter a numeric password between 0 to 100,000" << std::endl; 
+    std::cout << "Enter a numeric password between 0 to 100,000 "; 
 
     std::getline(std::cin, secret);
 
@@ -20,9 +40,9 @@ int main()
     }
 
 
-    PasswordCracker cracker(secret);
+    PasswordCracker cracker(secret, numOfThreads);
 
-    std::cout << "Cracking password with " << 8 << " threads" << std::endl; 
+    std::cout << "Cracking password with " << numOfThreads << " threads" << std::endl; 
 
     auto start = std::chrono::high_resolution_clock::now();
 

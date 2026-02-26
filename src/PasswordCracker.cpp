@@ -1,7 +1,7 @@
 #include "PasswordCracker.h"
 
-PasswordCracker::PasswordCracker(const std::string &password) : target(password), found(false) {
-    threads.reserve(NUM_THREADS);
+PasswordCracker::PasswordCracker(const std::string &password, int numOfThreads) : target(password), numOfThreads(numOfThreads), found(false) {
+    threads.reserve(numOfThreads);
 }
 
 std::string PasswordCracker::crackPassword() {
@@ -11,8 +11,8 @@ std::string PasswordCracker::crackPassword() {
     threads.clear();
 
     // round up always 
-    int size = (PASSWORD_SPACE + NUM_THREADS - 1) / NUM_THREADS;
-    for (size_t i = 0; i < NUM_THREADS; i++) {
+    int size = (PASSWORD_SPACE + numOfThreads - 1) / numOfThreads;
+    for (size_t i = 0; i < numOfThreads; i++) {
         int start = size * i;
         int end = std::min(start + size, PASSWORD_SPACE);
         threads.push_back(std::thread(&PasswordCracker::worker, this, start, end));
