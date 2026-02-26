@@ -28,9 +28,10 @@ int main()
         return 1; 
     }
 
+    // secret is a string for future use when using hash function 
     std::string secret; 
     
-    std::cout << "Enter a numeric password between 0 to 100,000 "; 
+    std::cout << "Enter a numeric password between 0 to 1,000,000: "; 
 
     std::getline(std::cin, secret);
 

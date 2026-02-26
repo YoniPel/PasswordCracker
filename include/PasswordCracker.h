@@ -7,7 +7,7 @@
 
 class PasswordCracker {
 private:
-    static constexpr int PASSWORD_SPACE = 100'000;
+    static constexpr int PASSWORD_SPACE = 1'000'000;
     int numOfThreads; 
     std::string target;
     std::atomic<bool> found;
