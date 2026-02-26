@@ -7,13 +7,18 @@
 
 int main()
 {
-    // Generate a radnom password between 1 and 100,000
-    std::random_device rd; 
-    std::mt19937 gen(rd()); 
-    std::uniform_int_distribution<> dis(0, 100000);
+    std::string secret; 
+    
+    std::cout << "=== Password Cracker ===" << std::endl; 
+    std::cout << "Enter a numeric password between 0 to 100,000" << std::endl; 
 
-    int randomNum = dis(gen);
-    std::string secret = std::to_string(randomNum);
+    std::getline(std::cin, secret);
+
+    if (secret.empty()) {
+        std::cout << "You didn't enter anything" << std::endl; 
+        return 1; 
+    }
+
 
     PasswordCracker cracker(secret);
 
