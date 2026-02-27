@@ -30,9 +30,12 @@ void ThreadPool::worker() {
         for (int i = currentTask.start; i < currentTask.end; i++) {
             if (finish) break; 
             if (i == password) {
-                // only one thread should find the password so no need to lock 
+                std::unique_lock<std::mutex> lock(m_mutx);
                 result = i;
                 finish = true;
+                lock.unlock();
+
+                foundPassword.notify_one();
                 break; 
             }
         }
@@ -63,7 +66,12 @@ std::string ThreadPool::activatePool() {
         enqueue(t);
     }
 
-    // TODO: logic to retrieve the restuls 
+    // the main thread waiting for the password to be found 
+    std::unique_lock<std::mutex> lock(m_mutx);
+    while (!finish) {
+        foundPassword.wait(lock); 
+    }
+    lock.unlock();
 
     return result; 
 }

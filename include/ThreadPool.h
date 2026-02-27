@@ -23,12 +23,16 @@ private:
     std::string result; 
     
     std::vector<std::thread> pool;
-
-    std::mutex m_mutx; 
-    std::condition_variable avalTasks; 
-
     std::queue<Task> tasks; 
-    
+
+    // the lock for accessing the queue 
+    std::mutex m_mutx; 
+
+    // condition variable for when there are tasks in the queue 
+    std::condition_variable avalTasks; 
+    // condition variable for when we cound the password to take the main thread 
+    std::condition_variable foundPassword; 
+
     // when we finish to find the current password but might use the instance again 
     std::atomic<bool> finish = false; 
 
