@@ -20,7 +20,7 @@ private:
     int password; 
 
     int numOfThreads; 
-    std::string result; 
+    int result; 
     
     std::vector<std::thread> pool;
     std::queue<Task> tasks; 
@@ -49,7 +49,7 @@ public:
 
     void enqueue(Task t); 
 
-    std::string activatePool(); 
+    int activatePool(); 
 
 
 };

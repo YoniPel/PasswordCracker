@@ -50,9 +50,9 @@ void ThreadPool::enqueue(Task t) {
 }
 
 
-std::string ThreadPool::activatePool() {
+int ThreadPool::activatePool() {
     finish = false;
-    result = "";
+    result = -1;
 
     std::unique_lock<std::mutex> lock(m_mutx);
     while (!tasks.empty()) {
