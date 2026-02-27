@@ -20,7 +20,7 @@ private:
     std::string result;
     
     std::vector<std::thread> threads;
-    std::unordered_map<std::thread::id, int> sums; 
+    std::unordered_map<std::thread::id, int> threadStats; 
 
     std::mutex m_mutex; 
     

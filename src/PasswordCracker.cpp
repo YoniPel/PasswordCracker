@@ -3,6 +3,7 @@
 
 PasswordCracker::PasswordCracker(const std::string &password, int numOfThreads) : target(password), numOfThreads(numOfThreads), found(false) {
     threads.reserve(numOfThreads);
+    threadStats.reserve(numOfThreads);
 }
 
 std::string PasswordCracker::crackPassword() {
@@ -37,7 +38,7 @@ void PasswordCracker::worker(int start, int end) {
         if (numOfChecks > BATCH_SIZE) {
             {
                 std::lock_guard<std::mutex> lock(m_mutex);
-                sums[std::this_thread::get_id()] += numOfChecks; 
+                threadStats[std::this_thread::get_id()] += numOfChecks; 
                 
             }
             numOfChecks = 0; 
@@ -51,11 +52,11 @@ void PasswordCracker::worker(int start, int end) {
         }
     }
     std::lock_guard<std::mutex> lock(m_mutex);
-    sums[std::this_thread::get_id()] += numOfChecks; 
+    threadStats[std::this_thread::get_id()] += numOfChecks; 
 }
 
 void PasswordCracker::displaySums() const {
-    for(const auto& pair : sums) {
+    for(const auto& pair : threadStats) {
         std::cout << "Number of checks for theard number " << pair.first << ": " << pair.second << std::endl;
     }
 }
