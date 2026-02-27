@@ -14,11 +14,12 @@ private:
     static constexpr int BATCH_SIZE = 100'000'000; 
     
     int numOfThreads; 
-    std::string target;
+    int target;
     
     // found is atomic to avoid caching when found is true in one thread but false in another
     std::atomic<bool> found;
-    std::string result;
+
+    int result;
     
     std::vector<std::thread> threads;
     std::unordered_map<std::thread::id, int> threadStats; 
@@ -28,9 +29,9 @@ private:
     
 
 public:
-    PasswordCracker(const std::string &password, int numOfThreads);
+    PasswordCracker(int password, int numOfThreads);
 
-    std::string crackPassword();
+    int crackPassword();
 
     void worker(int start, int end);
 

@@ -1,15 +1,15 @@
 #include "PasswordCracker.h"
 #include <iostream>
 
-PasswordCracker::PasswordCracker(const std::string &password, int numOfThreads) : target(password), numOfThreads(numOfThreads), found(false) {
+PasswordCracker::PasswordCracker(int password, int numOfThreads) : target(password), numOfThreads(numOfThreads), found(false) {
     threads.reserve(numOfThreads);
     threadStats.reserve(numOfThreads);
 }
 
-std::string PasswordCracker::crackPassword() {
+int PasswordCracker::crackPassword() {
     // update values for the case when using the same instance more than once
     found = false;
-    result = "";
+    result = -1; 
     threads.clear();
 
     // round up always 
@@ -25,7 +25,6 @@ std::string PasswordCracker::crackPassword() {
             t.join();
         }
     }
-
     return result;
 }
 
@@ -44,10 +43,9 @@ void PasswordCracker::worker(int start, int end) {
             numOfChecks = 0; 
         }
 
-        std::string guess = std::to_string(i);
-        if (guess == target) {
+        if (i == target) {
             found = true;
-            result = guess;
+            result = i;
             break;
         }
     }

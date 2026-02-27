@@ -28,7 +28,6 @@ int main()
         return 1; 
     }
 
-    // secret is a string for future use when using hash function 
     std::string secret; 
     
     std::cout << "Enter a numeric password between 0 to 1,000,000,000: "; 
@@ -41,13 +40,13 @@ int main()
     }
 
 
-    PasswordCracker cracker(secret, numOfThreads);
+    PasswordCracker cracker(std::stoi(secret), numOfThreads);
 
     std::cout << "Cracking password with " << numOfThreads << " threads" << std::endl; 
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    std::string result = cracker.crackPassword();
+    int result = cracker.crackPassword();
 
     auto end = std::chrono::high_resolution_clock::now();
 

@@ -1,7 +1,7 @@
 #include "ThreadPool.h"
 
 
-ThreadPool::ThreadPool(int numOfThreads, int passwordSpace, const std::string& password) : numOfThreads(numOfThreads), passwordSpace(passwordSpace), password(password) {
+ThreadPool::ThreadPool(int numOfThreads, int passwordSpace, int password) : numOfThreads(numOfThreads), passwordSpace(passwordSpace), password(password) {
     for (size_t i = 0; i < numOfThreads; i++) {
         pool.push_back(std::thread(&ThreadPool::worker, this));
     }
@@ -29,10 +29,9 @@ void ThreadPool::worker() {
         // preform the task 
         for (int i = currentTask.start; i < currentTask.end; i++) {
             if (finish) break; 
-            std::string guess = std::to_string(i);
-            if (guess == password) {
+            if (i == password) {
                 // only one thread should find the password so no need to lock 
-                result = guess;
+                result = i;
                 finish = true;
                 break; 
             }
