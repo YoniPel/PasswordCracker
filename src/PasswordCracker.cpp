@@ -1,4 +1,5 @@
 #include "PasswordCracker.h"
+#include <iostream>
 
 PasswordCracker::PasswordCracker(const std::string &password, int numOfThreads) : target(password), numOfThreads(numOfThreads), found(false) {
     threads.reserve(numOfThreads);
@@ -28,8 +29,19 @@ std::string PasswordCracker::crackPassword() {
 }
 
 void PasswordCracker::worker(int start, int end) {
-    for (size_t i = start; i < end; i++) {
+    int numOfChecks = 0; 
+    for (size_t i = start; i <= end; i++) {
         if (found) break;
+
+        numOfChecks++;
+        if (numOfChecks > BATCH_SIZE) {
+            {
+                std::lock_guard<std::mutex> lock(m_mutex);
+                sums[std::this_thread::get_id()] += numOfChecks; 
+                
+            }
+            numOfChecks = 0; 
+        }
 
         std::string guess = std::to_string(i);
         if (guess == target) {
@@ -37,5 +49,13 @@ void PasswordCracker::worker(int start, int end) {
             result = guess;
             break;
         }
+    }
+    std::lock_guard<std::mutex> lock(m_mutex);
+    sums[std::this_thread::get_id()] += numOfChecks; 
+}
+
+void PasswordCracker::displaySums() const {
+    for(const auto& pair : sums) {
+        std::cout << "Number of checks for theard number " << pair.first << ": " << pair.second << std::endl;
     }
 }

@@ -31,7 +31,7 @@ int main()
     // secret is a string for future use when using hash function 
     std::string secret; 
     
-    std::cout << "Enter a numeric password between 0 to 1,000,000: "; 
+    std::cout << "Enter a numeric password between 0 to 1,000,000,000: "; 
 
     std::getline(std::cin, secret);
 
@@ -55,6 +55,7 @@ int main()
 
     std::cout << "The password is: " << result << std::endl; 
     std::cout << "Time taken: " << elapsed.count() << " seconds" << std::endl; 
+    cracker.displaySums();
  
     return 0;
 }
