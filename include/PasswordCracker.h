@@ -7,6 +7,7 @@
 #include <thread>
 #include <atomic>
 
+// TODO: right now assuming that the password will be find 
 class PasswordCracker {
 private:
     static constexpr int PASSWORD_SPACE = 1'000'000'000;
@@ -23,6 +24,7 @@ private:
     std::unordered_map<std::thread::id, int> threadStats; 
 
     std::mutex m_mutex; 
+
     
 
 public:
@@ -33,5 +35,6 @@ public:
     void worker(int start, int end);
 
     void displaySums() const; 
+    
 
 };

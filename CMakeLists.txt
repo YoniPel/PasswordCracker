@@ -13,6 +13,7 @@ add_executable(
     main 
     src/main.cpp
     src/PasswordCracker.cpp
+    src/ThreadPool.cpp
 )
 
 target_link_libraries(main PRIVATE Threads::Threads)
