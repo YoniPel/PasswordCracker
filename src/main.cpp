@@ -9,9 +9,15 @@ int main()
 {
     std::string numOfThreadsString; 
 
-    std::cout << "=== Password Cracker ===" << std::endl; 
-    std::cout << "Enter the number of threads you want to use: "; 
+    std::cout << R"(
+--- Password Cracker Menu ---
+1. Choose the number of thread you want to use to crack the password
+2. Configure a password to be cracked 
+3. That's it :) 
+    )" << std::endl; 
     
+    std::cout << "Enter the number of thread you want to use: "; 
+
     std::getline(std::cin, numOfThreadsString);
 
     int numOfThreads = 1; 
