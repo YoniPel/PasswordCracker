@@ -54,11 +54,12 @@ int ThreadPool::activatePool() {
     finish = false;
     result = -1;
 
-    std::unique_lock<std::mutex> lock(m_mutx);
-    while (!tasks.empty()) {
-        tasks.pop();
+    {
+        std::unique_lock<std::mutex> lock(m_mutx);
+        while (!tasks.empty()) {
+            tasks.pop();
+        }
     }
-    lock.unlock();
     
     int size = (passwordSpace + numOfThreads - 1) / numOfThreads; 
     for (int i = 0; i < passwordSpace; i += size) {
@@ -67,11 +68,12 @@ int ThreadPool::activatePool() {
     }
 
     // the main thread waiting for the password to be found 
-    std::unique_lock<std::mutex> lock(m_mutx);
-    while (!finish) {
-        foundPassword.wait(lock); 
+    {
+        std::unique_lock<std::mutex> lock(m_mutx);
+        while (!finish) {
+            foundPassword.wait(lock); 
+        }
     }
-    lock.unlock();
 
     return result; 
 }

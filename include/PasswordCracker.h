@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ThreadPool.h"
 #include <string>
 #include <mutex>
 #include <vector>
@@ -12,20 +13,14 @@ class PasswordCracker {
 private:
     static constexpr int PASSWORD_SPACE = 1'000'000'000;
     static constexpr int BATCH_SIZE = 100'000'000; 
+
+    ThreadPool threadPool;
     
     int numOfThreads; 
     int target;
-    
-    // found is atomic to avoid caching when found is true in one thread but false in another
-    std::atomic<bool> found;
 
     int result;
     
-    std::vector<std::thread> threads;
-    std::unordered_map<std::thread::id, int> threadStats; 
-
-    std::mutex m_mutex; 
-
     
 
 public:
@@ -33,9 +28,5 @@ public:
 
     int crackPassword();
 
-    void worker(int start, int end);
-
-    void displaySums() const; 
-    
 
 };

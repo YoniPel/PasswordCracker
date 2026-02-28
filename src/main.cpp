@@ -54,7 +54,6 @@ int main()
 
     std::cout << "The password is: " << result << std::endl; 
     std::cout << "Time taken: " << elapsed.count() << " seconds" << std::endl; 
-    cracker.displaySums();
  
     return 0;
 }
