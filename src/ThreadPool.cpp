@@ -61,9 +61,8 @@ int ThreadPool::activatePool() {
         }
     }
     
-    int size = (passwordSpace + numOfThreads - 1) / numOfThreads; 
-    for (int i = 0; i < passwordSpace; i += size) {
-        Task t = {i, std::min(i + size, passwordSpace)}; 
+    for (int i = 0; i < passwordSpace; i += blockSize) {
+        Task t = {i, std::min(i + blockSize, passwordSpace)}; 
         enqueue(t);
     }
 

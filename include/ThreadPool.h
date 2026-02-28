@@ -21,6 +21,9 @@ private:
 
     int numOfThreads; 
     int result; 
+
+    // determines the chunck of numbers each task will contain 
+    const int blockSize = 10'000; 
     
     std::vector<std::thread> pool;
     std::queue<Task> tasks; 
