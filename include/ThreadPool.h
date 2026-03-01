@@ -16,14 +16,14 @@ private:
         int end; 
     }; 
 
-    int passwordSpace; 
     int password; 
 
     int numOfThreads; 
     int result; 
 
-    // determines the chunk of numbers each task will contain 
-    const int blockSize = 10'000; 
+    // the maximum and minimum range of numbers in a single task to check by a thread 
+    static constexpr int maxSizeBlockSize = 5000; 
+    static constexpr int minSizeBlockSize = 1000; 
     
     std::vector<std::thread> pool;
     std::queue<Task> tasks; 
@@ -43,7 +43,7 @@ private:
     bool stop = false; 
 
 public:
-    ThreadPool(int numOfThreads, int passwordSpace, int password); 
+    ThreadPool(int numOfThreads, int password); 
 
     // to kill the theards 
     ~ThreadPool();
@@ -52,7 +52,7 @@ public:
 
     void enqueue(Task t); 
 
-    int activatePool(); 
+    int activatePool(int start, int end); 
 
 
 };
