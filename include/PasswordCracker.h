@@ -16,16 +16,15 @@ private:
     ThreadPool threadPool;
     
     int numOfThreads; 
-    int target;
 
     int result;
     
     
 
 public:
-    PasswordCracker(int password, int numOfThreads);
+    PasswordCracker(int numOfThreads);
 
-    int crackPassword();
+    int crackPassword(int password);
 
 
 };
