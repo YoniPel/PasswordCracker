@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-ThreadPool::ThreadPool(int numOfThreads, int password) : numOfThreads(numOfThreads), password(password) {
+ThreadPool::ThreadPool(int numOfThreads) : numOfThreads(numOfThreads) {
     for (size_t i = 0; i < numOfThreads; i++) {
         pool.push_back(std::thread(&ThreadPool::worker, this));
     }
@@ -51,9 +51,10 @@ void ThreadPool::enqueue(Task t) {
 }
 
 
-int ThreadPool::activatePool(int start, int end) {
+int ThreadPool::activatePool(int start, int end, int target) {
     finish = false;
     result = -1;
+    this->password = target; 
 
     // empty the queue from previous use 
     {

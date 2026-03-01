@@ -16,7 +16,7 @@ private:
         int end; 
     }; 
 
-    int password; 
+    std::atomic<int> password; 
 
     int numOfThreads; 
     int result; 
@@ -43,7 +43,7 @@ private:
     bool stop = false; 
 
 public:
-    ThreadPool(int numOfThreads, int password); 
+    ThreadPool(int numOfThreads); 
 
     // to kill the theards 
     ~ThreadPool();
@@ -52,7 +52,7 @@ public:
 
     void enqueue(Task t); 
 
-    int activatePool(int start, int end); 
+    int activatePool(int start, int end, int target); 
 
 
 };
