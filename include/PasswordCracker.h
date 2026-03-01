@@ -12,7 +12,6 @@
 class PasswordCracker {
 private:
     static constexpr int PASSWORD_SPACE = 1'000'000'000;
-    static constexpr int BATCH_SIZE = 100'000'000; 
 
     ThreadPool threadPool;
     
